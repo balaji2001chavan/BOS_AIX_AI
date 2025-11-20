@@ -1,3 +1,5 @@
+import aiRouter from "./ai/api.js";
+app.use("/boss", aiRouter);
 import express from "express";
 import cors from "cors";
 import fs from "fs";
