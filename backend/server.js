@@ -25,7 +25,8 @@ app.get("/", (req, res) => {
     message: "System Ready"
   });
 });
-
+import aiRouter from "./ai/api.js";
+app.use("/boss", aiRouter);
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server Running → PORT ${PORT}`));
