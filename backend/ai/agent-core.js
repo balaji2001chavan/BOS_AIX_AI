@@ -3,7 +3,7 @@ import fs from "fs";
 export function loadManifest() {
   try {
     const data = fs.readFileSync("BOSSAIX_MANIFEST.txt", "utf8");
-    console.log("[BOSS AIX] Brain Manifest Loaded");
+    console.log("[BOSS AIX] Manifest Loaded");
     return data;
   } catch (e) {
     console.log("[BOSS AIX ERROR] Manifest Missing");
@@ -13,14 +13,13 @@ export function loadManifest() {
 
 export function interpretCommand(prompt, manifest) {
   return {
-    intent: `Process user request: ${prompt}`,
-    reasoning: "Use blueprint-based decision making.",
-    actionPlan: [
+    command: prompt,
+    basedOnManifest: manifest.slice(0, 200),
+    plan: [
       "Analyze request",
-      "Generate code or instructions",
-      "Prepare changes",
-      "Return execution plan"
-    ],
-    basedOn: manifest.substring(0, 120) + "..."
+      "Match with capabilities",
+      "Generate code or changes",
+      "Prepare patch"
+    ]
   };
 }
