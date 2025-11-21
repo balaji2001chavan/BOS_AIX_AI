@@ -1,6 +1,6 @@
 import express from "express";
 import { loadManifest, interpretCommand } from "./agent-core.js";
-import { writeFile, appendFile } from "./code-writer.js";
+const output = appendToFile("./backend/test-generated.js", "\n// Updated");
 
 const router = express.Router();
 
