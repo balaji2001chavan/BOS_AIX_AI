@@ -3,14 +3,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import fs from "fs";
-
-// Load AI Route (only once!)
-import aiRouter from "./ai/api.js";
-app.use("/boss", aiRouter);
+import aiRouter from "./ai/api.js"; // ← Import इथे
 
 dotenv.config();
 
-const app = express();
+const app = express(); // ← app FIRST
+
 app.use(cors());
 app.use(express.json());
 
@@ -20,19 +18,18 @@ try {
   manifest = fs.readFileSync("BOSSAIX_MANIFEST.txt", "utf8");
   console.log("[BOSS AIX] Manifest Loaded Successfully");
 } catch (err) {
-  console.log("[BOSS AIX] Manifest Missing. Add BOSSAIX_MANIFEST.txt in root.");
+  console.log("[BOSS AIX] Manifest Missing");
 }
 
-// Root Route
+// Routes MUST come after app is defined
+app.use("/boss", aiRouter);
+
 app.get("/", (req, res) => {
   res.send({
     status: "BOSS AiX Control Center Active",
     manifestLoaded: manifest.length > 0
   });
 });
-
-// AI Route
-app.use("/boss", aiRouter);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
