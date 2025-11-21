@@ -18,3 +18,20 @@ router.post("/ask", (req, res) => {
 });
 
 export default router;
+import { writeToFile, appendToFile } from "./code-writer.js";
+router.post("/ask", (req, res) => {
+  const { prompt } = req.body;
+  const manifest = loadManifest();
+
+  const output = interpretCommand(prompt, manifest);
+
+  if (prompt.toLowerCase().includes("test file")) {
+    const result = writeToFile("./test-output.txt", "Hello from BOSS AiX");
+    return res.json(result);
+  }
+
+  return res.json({
+    status: "ok",
+    result: output
+  });
+});
