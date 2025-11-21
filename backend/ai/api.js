@@ -5,6 +5,9 @@ import { writeFile, appendFile } from "./code-writer.js";
 
 const router = express.Router();
 
+// ==================================
+// MAIN AI EXECUTION ENDPOINT
+// ==================================
 router.post("/ask", (req, res) => {
   const { prompt } = req.body;
 
@@ -15,13 +18,29 @@ router.post("/ask", (req, res) => {
   const manifest = loadManifest();
   const result = interpretCommand(prompt, manifest);
 
-  // 👇 EXACT TEST COMMAND
+  // -------------------------
+  // TEST ACTION: CREATE FILE
+  // -------------------------
   if (prompt.toLowerCase().trim() === "create test file now") {
-    const output = writeFile("/opt/render/project/src/backend/test-generated.js", "// File created by BOSS AiX");
+    const output = writeFile(
+      "/opt/render/project/src/backend/test-generated.js",
+      "// File created by BOSS AiX"
+    );
     return res.json(output);
   }
 
-  // DEFAULT
+  // -------------------------
+  // TEST ACTION: APPEND FILE
+  // -------------------------
+  if (prompt.toLowerCase().trim() === "append to test file") {
+    const output = appendFile(
+      "/opt/render/project/src/backend/test-generated.js",
+      "\n// Updated by BOSS AiX"
+    );
+    return res.json(output);
+  }
+
+  // Default (just understanding, no action)
   return res.json({
     status: "ok",
     mode: "analysis-only",
@@ -29,12 +48,15 @@ router.post("/ask", (req, res) => {
   });
 });
 
-// CHECK IF FILE EXISTS
+// ==================================
+// CHECK IF TEST FILE EXISTS
+// ==================================
 router.get("/check", (req, res) => {
-  const exists = const exists = fs.existsSync("/opt/render/project/src/backend/test-generated.js");
-  res.json({
+  const exists = fs.existsSync("/opt/render/project/src/backend/test-generated.js");
+
+  return res.json({
     fileExists: exists,
-    path: "./backend/test-generated.js"
+    path: "/opt/render/project/src/backend/test-generated.js"
   });
 });
 
