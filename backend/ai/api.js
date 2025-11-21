@@ -17,7 +17,7 @@ router.post("/ask", (req, res) => {
 
   // 👇 EXACT TEST COMMAND
   if (prompt.toLowerCase().trim() === "create test file now") {
-    const output = writeFile("./backend/test-generated.js", "// File created by BOSS AiX");
+    const output = writeFile("/opt/render/project/src/backend/test-generated.js", "// File created by BOSS AiX");
     return res.json(output);
   }
 
@@ -31,7 +31,7 @@ router.post("/ask", (req, res) => {
 
 // CHECK IF FILE EXISTS
 router.get("/check", (req, res) => {
-  const exists = fs.existsSync("./backend/test-generated.js");
+  const exists = const exists = fs.existsSync("/opt/render/project/src/backend/test-generated.js");
   res.json({
     fileExists: exists,
     path: "./backend/test-generated.js"
