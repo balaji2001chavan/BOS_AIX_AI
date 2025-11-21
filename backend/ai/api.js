@@ -4,7 +4,7 @@ import { writeFile, appendFile } from "./code-writer.js";
 
 const router = express.Router();
 
-// MAIN AI API
+// MAIN AI EXECUTION ENDPOINT
 router.post("/ask", (req, res) => {
   const { prompt } = req.body;
 
@@ -12,35 +12,35 @@ router.post("/ask", (req, res) => {
     return res.json({ error: "No prompt provided" });
   }
 
-  // Load manifest (brain identity)
+  // Load main system manifest
   const manifest = loadManifest();
   if (!manifest) {
     return res.json({ error: "Manifest not found" });
   }
 
-  // Generate action plan from prompt
+  // Create logical plan
   const result = interpretCommand(prompt, manifest);
 
-  // ================================
-  //   BUILT-IN COMMANDS (TEST MODE)
-  // ================================
+  // ======================
+  //   EXECUTABLE ACTIONS
+  // ======================
 
-  // Create a test JS file
-  if (prompt.toLowerCase().includes("create test file")) {
-  const output = writeFile("./backend/test-generated.js", "// File created by BOSS AiX");
-  return res.json(output);
-  }
-
-  // Append text to same file
-  if (prompt.toLowerCase().includes("append test")) {
-    const output = appendFile("./backend/test-generated.js", "\n// Appended by BOSS AiX");
+  // CREATE TEST FILE
+  if (prompt.toLowerCase() === "create test file now") {
+    const output = writeFile("./backend/test-generated.js", "// Created by BOSS AiX");
     return res.json(output);
   }
 
-  // Default return AI understanding (no write)
+  // APPEND TO TEST FILE
+  if (prompt.toLowerCase() === "append to test file") {
+    const output = appendFile("./backend/test-generated.js", "\n// Updated by BOSS AiX");
+    return res.json(output);
+  }
+
+  // DEFAULT → respond only
   return res.json({
     status: "ok",
-    execution: "understood",
+    mode: "analysis-only",
     result
   });
 });
