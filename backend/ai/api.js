@@ -27,8 +27,8 @@ router.post("/ask", (req, res) => {
 
   // Create a test JS file
   if (prompt.toLowerCase().includes("create test file")) {
-    const output = writeFile("./backend/test-generated.js", "// File created by BOSS AiX");
-    return res.json(output);
+  const output = writeFile("./backend/test-generated.js", "// File created by BOSS AiX");
+  return res.json(output);
   }
 
   // Append text to same file
