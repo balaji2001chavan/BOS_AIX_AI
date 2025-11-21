@@ -2,41 +2,32 @@ import express from "express";
 import cors from "cors";
 import { connectDB } from "./db/connect.js";
 
-// Routes
+// ROUTES
 import aiRouter from "./ai/api.js";
 import authRouter from "./routes/auth.js";
-import profileRouter from "./routes/profile.js"; // 🔥 New Import
+import profileRouter from "./routes/profile.js"; // 🔥 PROFILE ROUTE
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Root Route
+// ROOT CHECK
 app.get("/", (req, res) => {
-  res.json({
-    status: "BOSS AiX Control Center Active",
-    manifestLoaded: true,
-  });
+  res.json({ status: "BOSS AiX ACTIVE", profileRoutes: true });
 });
 
-// Auth Routes
+// MAIN ROUTES
 app.use("/auth", authRouter);
-
-// AI Command Routes
 app.use("/boss", aiRouter);
+app.use("/profile", profileRouter);  // 🔥 ENABLED
 
-// Profile Routes 🔥 (New)
-app.use("/profile", profileRouter);
+// PORT
+const PORT = process.env.PORT || 10000;
 
-// Port Handling
-const PORT = process.env.PORT || 5000;
-
-// Start DB + Server
+// START SERVER
 connectDB();
-
 app.listen(PORT, () => {
-  console.log("[DB] MongoDB connected");
-  console.log(`[BOSS AiX] Server Running on Port ${PORT}`);
+  console.log("[BOSS AiX] Server Running", PORT);
+  console.log("[DB] MongoDB Connected");
 });
