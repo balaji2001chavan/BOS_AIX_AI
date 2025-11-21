@@ -6,6 +6,7 @@ import fs from "fs";
 
 // Load AI Route (only once!)
 import aiRouter from "./ai/api.js";
+app.use("/boss", aiRouter);
 
 dotenv.config();
 
